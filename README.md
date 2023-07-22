@@ -3,6 +3,9 @@
 
 Bu araç, farklı işlemleri gerçekleştirebileceğiniz bir komut satırı aracıdır. Aşağıda aracın kullanımı ve kurulumu hakkında bilgiler bulunmaktadır.
 
+Not: Bu araç Geliştirilme aşamasındadır. Önerileriniz için İletişim adreslerinden ulaşabilirsiniz.
+Not: Bu araç sadece Kali Linux Üzerinde test edilmiştir ve Windows üzerinde test edilmemiştir. Hatalar ve önerileriniz için iletişim adreslerinden ulaşabilirsiniz.
+
 ## Kullanım
 
 1. **NMAP Tarama**:
