@@ -52,18 +52,18 @@ def generate_wordlist(filename, keywords):
         with open(filename, 'w') as file:
             for keyword in keywords:
                 variations = generate_variations(keyword)
-                file.write(keyword + '\n')  # Anahtar kelimeyi yazdır
+                file.write(keyword + '\n')  
                 for variation in variations:
-                    file.write(variation + '\n')  # Varyasyonları yazdır
+                    file.write(variation + '\n') 
         print("Wordlist '{}' successfully created.".format(filename))
     except Exception as e:
         print("An error occurred while creating the wordlist: {}".format(str(e)))
 
 def generate_variations(keyword):
     variations = []
-    variations.append(keyword.lower())  # Küçük harfli
-    variations.append(keyword.upper())  # Büyük harfli
-    variations.append(keyword.capitalize())  # İlk harfi büyük
+    variations.append(keyword.lower()) 
+    variations.append(keyword.upper()) 
+    variations.append(keyword.capitalize()) 
     return variations
 
 try:
