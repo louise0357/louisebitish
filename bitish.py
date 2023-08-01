@@ -172,7 +172,6 @@ try:
         print("USER AGENT GEN SEÇTİN:D")
 
         def generate_user_agent():
-            # Kullanıcı ajanı için rastgele bir işletim sistemi seçin
             operating_systems = [
                 'Windows NT 10.0; Win64; x64',
                 'Macintosh; Intel Mac OS X 10_14_6',
@@ -182,7 +181,6 @@ try:
             ]
             operating_system = random.choice(operating_systems)
 
-            # Kullanıcı ajanı için rastgele bir tarayıcı seçin
             browsers = [
                 'Chrome/90.0.4430.212',
                 'Safari/537.36',
@@ -192,11 +190,9 @@ try:
             ]
             browser = random.choice(browsers)
 
-            # Kullanıcı ajanı metnini oluşturun ve döndürün
             user_agent = f'Mozilla/5.0 ({operating_system}) AppleWebKit/537.36 ({browser}) Chrome/90.0.4430.212 Safari/537.36'
             return user_agent
 
-        # Kullanıcı ajanı üretme örneği
         user_agent = generate_user_agent()
         print(user_agent)
 
