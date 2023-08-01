@@ -1,9 +1,25 @@
 # ARACIN YASA DIŞI KULLANIMI KESİNLİKLE KULLANICIYA AİTTİR. YAPIMCI HİÇBİR SORUMLULUK KABUL ETMEMEKTEDİR.
 # CODED BY LOUİSE0357
 
+        
 from termcolor import colored
 import os
+import subprocess
 import time
+
+
+def update_github_repo():
+    try:
+        subprocess.check_call(["git", "reset", "--hard"])
+        subprocess.check_call(["git", "pull", "origin", "main"])
+        print("Tool başarıyla güncellendi.")
+    except subprocess.CalledProcessError:
+        print("Tool güncellenirken bir hata oluştu.")
+
+if __name__ == "__main__":
+    update_github_repo()
+    
+
 
 os.system("clear")
 
