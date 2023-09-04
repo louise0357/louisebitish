@@ -135,7 +135,7 @@ def main_menu():
     giris = input(giris_islem)
 
     if giris == "1":
-        print("NMAP SEÇTİN:D")
+        print("Nmap Seçildi.")
         nmap_ip = input("İP: ")
         os.system("nmap -sS -sV -Pn -T4 -A" + nmap_ip)
         gecis_soru = input("Restart? (Y/n): ")
@@ -145,7 +145,7 @@ def main_menu():
             print("Çıkış Yapılıyor..")
 
     elif giris == "2":
-        print("SQLMAP (İNJECTİON) SEÇTİN:D")
+        print("Sqlmap Seçildi.")
         linkk = input("Link: ")
         os.system("sqlmap -u " + linkk + " --dbs --batch")
         
@@ -187,7 +187,7 @@ def main_menu():
             print("Çıkış Yapılıyor..")
 
     elif giris == "3":
-        print("WİRESHARK SEÇTİN:D")
+        print("Wireshark Seçildi.")
         os.system("wireshark")
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
@@ -196,7 +196,7 @@ def main_menu():
             print("Çıkış Yapılıyor..")
 
     elif giris == "4":
-        print("WORDLİST CREATER SEÇTİN:D")
+        print("Wordlist Creater Seçildi.")
         filename = input("Dosya adı: ")
         keywords = []
         while True:
@@ -212,7 +212,7 @@ def main_menu():
             print("Çıkış Yapılıyor..")
 
     elif giris == "5":
-        print("5 SEÇTİN XD")
+        print("Macchanger Seçildi.")
         adapter_secim = input("Cihazınızın İsmini girin: ")
         os.system("ifconfig " + adapter_secim + " down")
         os.system("macchanger -r " + adapter_secim + "")
@@ -225,7 +225,7 @@ def main_menu():
             print("Çıkış Yapılıyor..")
 
     elif giris == "6":
-        print("ZAP SEÇTİN:D")
+        print("Penetrasyon Testleri Seçildi.")
         os.system("apt install owasp-zap")
         os.system("owasp-zap")
         gecis_soru = input("Restart? (Y/n): ")
@@ -235,7 +235,7 @@ def main_menu():
             print("Çıkış Yapılıyor..")
 
     elif giris == "7":
-        print("USER AGENT GEN SEÇTİN:D")
+        print("User Agent Generator Seçildi.")
 
         def generate_user_agent():
             operating_systems = [
@@ -269,7 +269,7 @@ def main_menu():
             print("Çıkış Yapılıyor..")
 
     elif giris == "8":
-        print("PORT SCANNER SEÇTİN:D")
+        print("Port Scanner Seçildi.")
         ip = input("Taranacak IP adresi: ")
         for port in range(1, 1024):
             scan_port(ip, port)
@@ -280,7 +280,7 @@ def main_menu():
             print("Çıkış Yapılıyor..")
     
     elif giris == "9":
-        print("HASH SEÇTİN:D")
+        print("Hasher Seçildi.")
         data = input("Veriyi girin: ")
         hash_type = input("Kullanmak istediğiniz hash türünü seçin (base64 için 1, base58 için 2): ")
         if hash_type == "1":
