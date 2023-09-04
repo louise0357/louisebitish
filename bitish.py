@@ -137,7 +137,7 @@ def main_menu():
     if giris == "1":
         print("NMAP SEÇTİN:D")
         nmap_ip = input("İP: ")
-        os.system("nmap -sS -sV " + nmap_ip)
+        os.system("nmap -sS -sV -Pn -T4 -A" + nmap_ip)
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
             main_menu()
