@@ -214,7 +214,9 @@ def main_menu():
     elif giris == "5":
         print("5 SEÇTİN XD")
         adapter_secim = input("Cihazınızın İsmini girin: ")
+        os.system("ifconfig " + adapter_secim + " down")
         os.system("macchanger -r " + adapter_secim + "")
+        os.system("ifconfig " + adapter_secim + " up")
         print("Mac Adresiniz Başarıyla Değiştirildi!")
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
