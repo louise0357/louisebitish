@@ -1,12 +1,15 @@
-# ARACIN YASA DIŞI KULLANIMI KESİNLİKLE KULLANICIYA AİTTİR. YAPIMCI HİÇBİR SORUMLULUK KABUL ETMEMEKTEDİR.
+# ARACIN YASA DIŞI KULLANIMININ SORUMLULUĞU KESİNLİKLE KULLANICIYA AİTTİR. YAPIMCI HİÇBİR SORUMLULUK KABUL ETMEMEKTEDİR.
 # CODED BY LOUİSE0357
 
-        
+import platform
+import subprocess
 from termcolor import colored
 import os
-import subprocess
+import sys
+import pyfiglet
+import random
+import socket
 import time
-
 
 def update_github_repo():
     try:
@@ -16,36 +19,27 @@ def update_github_repo():
     except subprocess.CalledProcessError:
         print("Tool güncellenirken bir hata oluştu.")
 
-if __name__ == "__main__":
-    update_github_repo()
-    
+def encode_decode_based_on_os(data, encode=True, hash_type="base64"):
+    current_os = platform.system()
+    try:
+        if current_os == "Linux":
+            if encode:
+                encoded_data = subprocess.check_output(f'echo "{data}" | {hash_type}', shell=True)
+            else:
+                encoded_data = subprocess.check_output(f'echo "{data}" | {hash_type} -d', shell=True)
+        elif current_os == "Windows":
+            if encode:
+                encoded_data = subprocess.check_output(f'echo "{data}" | certutil -encode{hash_type} -f -', shell=True)
+            else:
+                encoded_data = subprocess.check_output(f'echo {data} | certutil -decode{hash_type} -f -', shell=True)
+        else:
+            print("Desteklenmeyen işletim sistemi.")
+            return None
 
-
-os.system("clear")
-
-baslangic = colored("Tool Başlatılıyor.", "red")
-print(baslangic)
-time.sleep(1)
-
-os.system("clear")
-
-baslangic2 = colored("Tool Başlatılıyor..", "red")
-print(baslangic2)
-time.sleep(1)
-
-os.system("clear")
-
-baslangic3 = colored("Tool Başlatılıyor...", "red")
-print(baslangic3)
-time.sleep(1)
-
-import requests
-import sys
-import pyfiglet
-import random
-import socket
-
-time.sleep(2)
+        return encoded_data.decode().strip()
+    except subprocess.CalledProcessError as e:
+        print(f"Hata: {e}")
+        return None
 
 def generate_wordlist(filename, keywords):
     try:
@@ -66,26 +60,63 @@ def generate_variations(keyword):
     variations.append(keyword.capitalize()) 
     return variations
 
-try:
+def scan_port(ip, port):
+    porttaraniyor = colored("Port Taraması Başladı! Lütfen Bekleyin...", "red")
+    print(porttaraniyor)
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.connect((ip, port))
+        s.close()
+        print("Port {} açık".format(port))
+    except socket.error:
+        pass
+
+def main_menu():
     os.system("clear")
-    figlet_text = pyfiglet.figlet_format("L0UISE BITISH")
-    colored_text = colored(figlet_text, "red")
-    print(colored_text)
+
+    baslangic = colored("Tool Başlatılıyor.", "red")
+    print(baslangic)
+    time.sleep(1)
+
+    os.system("clear")
+
+    baslangic2 = colored("Tool Başlatılıyor..", "red")
+    print(baslangic2)
+    time.sleep(1)
+
+    os.system("clear")
+
+    baslangic3 = colored("Tool Başlatılıyor...", "red")
+    print(baslangic3)
+    time.sleep(1)
     
+    os.system("clear")
+    
+    figlet_text = pyfiglet.figlet_format("L0UISE BITISH")
+    colored_text = colored("""
+    
+ _     ___  _   _ ___ ____  _____   ____ ___ _____ ___ ____  _   _ 
+| |   / _ \| | | |_ _/ ___|| ____| | __ )_ _|_   _|_ _/ ___|| | | |
+| |  | | | | | | || |\___ \|  _|   |  _ \| |  | |  | |\___ \| |_| |
+| |__| |_| | |_| || | ___) | |___  | |_) | |  | |  | | ___) |  _  |
+|_____\___/ \___/|___|____/|_____| |____/___| |_| |___|____/|_| |_| v1.5
+    
+    """, "red")
+    print(colored_text)
+
     colored_text_bilgi = colored("NOT: ARACIN YASA DIŞI KULLANIMI KESİNLİKLE YASAKTIR. TÜM SORUMLULUK KULLANICIYA AİTTİR.", "red")
     print(colored_text_bilgi)
-    
+
     colored_text_ig = colored("""
     
 İnstagram: louise0357
     """, "magenta")
     print(colored_text_ig)
-        
+
     colored_text_github = colored("""Github: https://github.com/louise0357
-    
     """, "green")
     print(colored_text_github)
-    
+
     islemler = colored("""
     1: NMAP
     2: SQLMAP
@@ -95,6 +126,7 @@ try:
     6: PENETRASYON TESTLERİ
     7: USER AGENT GEN
     8: PORT SCANNER
+    9: HASH
     0: ÇIKIŞ
     """, "cyan")
     print(islemler)
@@ -108,7 +140,7 @@ try:
         os.system("nmap -sS -sV " + nmap_ip)
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
-            os.system("python bitish.py")
+            main_menu()
         elif gecis_soru == "N" or gecis_soru == "n":
             print("Çıkış Yapılıyor..")
 
@@ -118,7 +150,7 @@ try:
         os.system("sqlmap -u " + linkk + " --dbs")
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
-            os.system("python bitish.py")
+            main_menu()
         elif gecis_soru == "N" or gecis_soru == "n":
             print("Çıkış Yapılıyor..")
 
@@ -127,7 +159,7 @@ try:
         os.system("wireshark")
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
-            os.system("python bitish.py")
+            main_menu()
         elif gecis_soru == "N" or gecis_soru == "n":
             print("Çıkış Yapılıyor..")
 
@@ -143,7 +175,7 @@ try:
         generate_wordlist(filename, keywords)
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
-            os.system("python bitish.py")
+            main_menu()
         elif gecis_soru == "N" or gecis_soru == "n":
             print("Çıkış Yapılıyor..")
 
@@ -154,7 +186,7 @@ try:
         print("Mac Adresiniz Başarıyla Değiştirildi!")
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
-            os.system("python bitish.py")
+            main_menu()
         elif gecis_soru == "N" or gecis_soru == "n":
             print("Çıkış Yapılıyor..")
 
@@ -164,7 +196,7 @@ try:
         os.system("owasp-zap")
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
-            os.system("python bitish.py")
+            main_menu()
         elif gecis_soru == "N" or gecis_soru == "n":
             print("Çıkış Yapılıyor..")
 
@@ -198,34 +230,48 @@ try:
 
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
-            os.system("python bitish.py")
+            main_menu()
         elif gecis_soru == "N" or gecis_soru == "n":
             print("Çıkış Yapılıyor..")
 
     elif giris == "8":
         print("PORT SCANNER SEÇTİN:D")
-
-        def scan_port(ip, port):
-            porttaraniyor = colored("Port Taraması Başladı! Lütfen Bekleyin...", "red")
-            print(porttaraniyor)
-            try:
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                s.connect((ip, port))
-                s.close()
-                print("Port {} açık".format(port))
-            except socket.error:
-                pass
-
-        if __name__ == "__main__":
-            ip = input("Taranacak IP adresi: ")
-            for port in range(1, 1024):
-                scan_port(ip, port)
-
+        ip = input("Taranacak IP adresi: ")
+        for port in range(1, 1024):
+            scan_port(ip, port)
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
-            os.system("python bitish.py")
+            main_menu()
         elif gecis_soru == "N" or gecis_soru == "n":
             print("Çıkış Yapılıyor..")
+    
+    elif giris == "9":
+        print("HASH SEÇTİN:D")
+        data = input("Veriyi girin: ")
+        hash_type = input("Kullanmak istediğiniz hash türünü seçin (base64 için 1, base58 için 2): ")
+        if hash_type == "1":
+            hash_type = "base64"
+        elif hash_type == "2":
+            hash_type = "base58"
+        else:
+            print("Geçersiz hash türü seçtiniz.")
+            main_menu()
+        encode_decode_choice = input("Encode (1) veya Decode (2) işlemi seçin: ")
+        if encode_decode_choice == "1":
+            encoded_data = encode_decode_based_on_os(data, encode=True, hash_type=hash_type)
+            if encoded_data:
+                encodesvery = colored(f"Encode edilmiş veri: {encoded_data}", "red")
+                print(encodesvery)
+        elif encode_decode_choice == "2":
+            decoded_data = encode_decode_based_on_os(data, encode=False, hash_type=hash_type)
+            if decoded_data:
+                decodesvery = colored(f"Decode edilmiş veri: {decoded_data}", "red")
+                print(decodesvery)
+        else:
+            print("Geçersiz seçim. Lütfen tekrar deneyin.")
+        
+        gecis_soru = input("Ana menüye dönmek için Enter tuşuna basın...")
+        main_menu()
 
     elif giris == "0":
         print("Tool'dan Çıkış Yapılıyor...")
@@ -235,7 +281,8 @@ try:
     else:
         print("Geçersiz İşlem. Tekrar deneyin.")
         time.sleep(2)
-        os.system("python bitish.py")
+        main_menu()
 
-except Exception as e:
-    print("Çıkış Tamamlandı!")
+if __name__ == "__main__":
+    update_github_repo()
+    main_menu()
