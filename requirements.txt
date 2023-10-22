@@ -2,3 +2,5 @@ termcolor
 requests
 pyfiglet
 platform
+pyautogui
+scapy
