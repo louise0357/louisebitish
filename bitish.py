@@ -12,6 +12,7 @@ import socket
 import time
 import pyautogui
 import scapy.all as scapy
+import hashlib
 
 def update_github_repo():
     try:
@@ -20,6 +21,12 @@ def update_github_repo():
         print("Tool başarıyla güncellendi.")
     except subprocess.CalledProcessError:
         print("Tool güncellenirken bir hata oluştu.")
+
+def md5_encode(text):
+    md5_hash = hashlib.md5()
+    md5_hash.update(text.encode('utf-8'))
+    return md5_hash.hexdigest()
+
 
 def ağ_analizi():
     wifi_kart_colored = colored("Wifi Kartınızın İsmini Giriniz: ", "yellow")
@@ -323,11 +330,16 @@ def main_menu():
     elif giris == "9":
         print("Hasher Seçildi.")
         data = input("Veriyi girin: ")
-        hash_type = input("Kullanmak istediğiniz hash türünü seçin (base64 için 1, base58 için 2): ")
+        hash_type = input("Kullanmak istediğiniz hash türünü seçin (base64 için 1, base58 için 2, MD5 için 3): ")
         if hash_type == "1":
             hash_type = "base64"
         elif hash_type == "2":
             hash_type = "base58"
+        elif hash_type == "3":
+            encoded_text = md5_encode(data)
+            print("MD5 hash değeri: ", encoded_text)
+            input()
+            main_menu()
         else:
             print("Geçersiz hash türü seçtiniz.")
             main_menu()
