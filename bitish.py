@@ -10,6 +10,8 @@ import pyfiglet
 import random
 import socket
 import time
+import pyautogui
+import scapy.all as scapy
 
 def update_github_repo():
     try:
@@ -18,6 +20,40 @@ def update_github_repo():
         print("Tool başarıyla güncellendi.")
     except subprocess.CalledProcessError:
         print("Tool güncellenirken bir hata oluştu.")
+
+def ağ_analizi():
+    wifi_kart_colored = colored("Wifi Kartınızın İsmini Giriniz: ", "yellow")
+    wifi_kart = input(wifi_kart_colored)
+    pyautogui.press("f11")
+    tamekran = input(colored("Lütfen Terminal Tam Ekrana Alındıktan Sonra Enter'a Basınız.  "))
+    print(colored("Ağ Analizi Başlatılıyor...", "red"))
+    print(colored("Tooldan çıktıktan sonra halen tam ekranda iseniz f11 tuşuna basınız.", "cyan"))
+    print("\tZaman\t\tProtokol\tKaynak IP\tHedef IP\tKaynak Port\tHedef Port\tVeri Boyutu (byte)")
+
+    try:
+        def paket_yakala(packet):
+            if packet.haslayer(scapy.IP):
+                zaman = time.strftime("%Y-%m-%d %H:%M:%S")
+                protokol = packet[scapy.IP].proto
+                ip_src = packet[scapy.IP].src
+                ip_dst = packet[scapy.IP].dst
+                kaynak_port = 0
+                hedef_port = 0
+                veri_boyutu = len(packet)
+
+                if protokol == 6:  # TCP
+                    kaynak_port = packet[scapy.TCP].sport
+                    hedef_port = packet[scapy.TCP].dport
+                elif protokol == 17:  # UDP
+                    kaynak_port = packet[scapy.UDP].sport
+                    hedef_port = packet[scapy.UDP].dport
+
+                print(colored(f"{zaman}\t{protokol}\t\t{ip_src}\t{ip_dst}\t{kaynak_port}\t\t{hedef_port}\t\t{veri_boyutu}", "red"))
+
+        scapy.sniff(iface=wifi_kart, store=False, prn=paket_yakala)
+    except KeyboardInterrupt:
+        print(colored("\nAğdaki Paket Takibi Sonlandırıldı.", "red"))
+
 
 def encode_decode_based_on_os(data, encode=True, hash_type="base64"):
     current_os = platform.system()
@@ -60,16 +96,18 @@ def generate_variations(keyword):
     variations.append(keyword.capitalize()) 
     return variations
 
-def scan_port(ip, port):
-    porttaraniyor = colored("Port Taraması Başladı! Lütfen Bekleyin...", "red")
-    print(porttaraniyor)
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((ip, port))
-        s.close()
-        print("Port {} açık".format(port))
-    except socket.error:
-        pass
+def port_tarama(hedef_ip, baslangic_port, bitis_port):
+    for port in range(baslangic_port, bitis_port + 1):
+        soket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        soket.settimeout(0.1)
+
+        sonuc = soket.connect_ex((hedef_ip, port))
+
+        if sonuc == 0:
+            acik_port = colored(f"Port {port} açık", "red")
+            print(acik_port)
+        soket.close()
+        
 
 def main_menu():
     os.system("clear")
@@ -99,7 +137,7 @@ def main_menu():
 | |   / _ \| | | |_ _/ ___|| ____| | __ )_ _|_   _|_ _/ ___|| | | |
 | |  | | | | | | || |\___ \|  _|   |  _ \| |  | |  | |\___ \| |_| |
 | |__| |_| | |_| || | ___) | |___  | |_) | |  | |  | | ___) |  _  |
-|_____\___/ \___/|___|____/|_____| |____/___| |_| |___|____/|_| |_| v1.5
+|_____\___/ \___/|___|____/|_____| |____/___| |_| |___|____/|_| |_| v1.9
     
     """, "red")
     print(colored_text)
@@ -120,7 +158,7 @@ def main_menu():
     islemler = colored("""
     1: NMAP
     2: SQLMAP
-    3: WİRESHARK
+    3: AĞ ANALİZİ
     4: WORDLİST CREATER
     5: MAC CHANGER
     6: PENETRASYON TESTLERİ
@@ -187,8 +225,8 @@ def main_menu():
             print("Çıkış Yapılıyor..")
 
     elif giris == "3":
-        print("Wireshark Seçildi.")
-        os.system("wireshark")
+        print("Ağ Analizi Seçildi.")
+        ağ_analizi()
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
             main_menu()
@@ -270,9 +308,12 @@ def main_menu():
 
     elif giris == "8":
         print("Port Scanner Seçildi.")
-        ip = input("Taranacak IP adresi: ")
-        for port in range(1, 1024):
-            scan_port(ip, port)
+        hedef_ip = input("Hedef IP adresini girin: ")
+        baslangic_port = int(input("Başlangıç portunu girin: "))
+        bitis_port = int(input("Bitiş portunu girin: "))
+        
+        port_tarama(hedef_ip, baslangic_port, bitis_port)
+        
         gecis_soru = input("Restart? (Y/n): ")
         if gecis_soru == "Y" or gecis_soru == "y":
             main_menu()
