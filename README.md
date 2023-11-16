@@ -9,13 +9,13 @@ Not: Bu araç sadece Kali Linux Üzerinde test edilmiştir ve Windows üzerinde 
 ## Kullanım
 
 1. **NMAP Tarama**:
-   - IP adresi istenir ve ardından nmap taraması gerçekleştirilir.
+   - Hedef cihazın portları Nmap ile çoğu parametre kullanılarak taranılır.
 
 2. **SQLMAP (İnjection)**:
    - SQL enjeksiyonu için bir bağlantı istenir ve ardından sqlmap taraması yapılır.
 
-3. **Wireshark Başlatma**:
-   - Wireshark arayüzü başlatılır.
+3. **Ağ Analizi**:
+   - Bağlı Olduğunuz Wifi'deki TCP/UDP (Gelen/Giden) istekleri izlemenizi sağlar..
 
 4. **Wordlist Oluşturma**:
    - Wordlist oluşturmak için anahtar kelimeler girilir.
