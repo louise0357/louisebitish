@@ -34,10 +34,11 @@ Not: Bu araç sadece Kali Linux Üzerinde test edilmiştir ve Windows üzerinde 
 
 ## Kurulum
 
-Gerekli modülleri yüklemek için aşağıdaki adımları izleyin:
-
+Gerekli modülleri yüklemek ve aracı çalıştırmak için aşağıdaki adımları izleyin:
+- git clone https://github.com/louise0357/louisebitish/
+- cd louisebitish
 - pip install -r requirements.txt
-
+- python bitish.py
 
 
 
